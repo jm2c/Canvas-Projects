@@ -3,6 +3,7 @@ const config = {
     numParticles: 200,
     minOrbitRadius: 5,
     maxOrbitRadius: 15,
+    maxParticleSize: 5,
     leaveTrace: true
 }
 
@@ -43,11 +44,9 @@ class Particle {
     }
 
     draw() {
-        ctx.strokeStyle = this.color;
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
-        ctx.stroke();
         ctx.fill();
     }
 
@@ -73,7 +72,7 @@ const colors = [
 ];
 const particles = [];
 for(let i = 0; i < config.numParticles; i++){
-    const r = Math.random()*2 + 1;
+    const r = Math.random()*config.maxParticleSize + 1;
     const radius = Math.random()*(config.maxOrbitRadius - config.minOrbitRadius) + config.minOrbitRadius;
     const color = colors[Math.floor(Math.random()*4)];
     particles.push(
