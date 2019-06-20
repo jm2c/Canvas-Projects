@@ -1,3 +1,11 @@
+// Configs for the effect
+const config = {
+    numParticles: 200,
+    minOrbitRadius: 5,
+    maxOrbitRadius: 15,
+    leaveTrace: true
+}
+
 // Create the canvas
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
@@ -30,7 +38,8 @@ class Particle {
         this.color = color;
         this.x = undefined;
         this.y = undefined;
-        this.angle = 0;
+        this.angle = Math.random()*Math.PI*2;
+        this.vel = Math.random()*.05 + .01;
     }
 
     draw() {
@@ -50,18 +59,36 @@ class Particle {
             this.x = mouseX;
             this.y = mouseY;
         }
-        this.angle += 0.05;
+        this.angle += this.vel;
         this.draw();
     }
 }
 
-// Create a particle
-p1 = new Particle(5, 5, '#22a6b3');
-
+// Create a bunch of particles
+const colors = [
+    '#1abc9c',
+    '#3498db',
+    '#8e44ad',
+    '#d35400'
+];
+const particles = [];
+for(let i = 0; i < config.numParticles; i++){
+    const r = Math.random()*2 + 1;
+    const radius = Math.random()*(config.maxOrbitRadius - config.minOrbitRadius) + config.minOrbitRadius;
+    const color = colors[Math.floor(Math.random()*4)];
+    particles.push(
+        new Particle(r, radius, color)
+    );
+}
 
 // Main loop for animation
 (function animate(){
     requestAnimationFrame(animate);
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
-    p1.update();
+    if(config.leaveTrace){
+        ctx.fillStyle = 'rgba(255,255,255,0.1)';
+        ctx.fillRect(0,0,innerWidth,innerHeight);
+    }else{
+        ctx.clearRect(0, 0, innerWidth, innerHeight);
+    }
+    particles.forEach( p => p.update());
 })();
