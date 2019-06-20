@@ -4,7 +4,14 @@ const config = {
     minOrbitRadius: 5,
     maxOrbitRadius: 15,
     maxParticleSize: 5,
-    leaveTrace: true
+    leaveTrace: true,
+    defaultParticleColor: 'silver', // if particleColors array is empty or undefined
+    particleColors: [
+        '#1abc9c', // green
+        '#3498db', // blue
+        '#8e44ad', // purple
+        '#d35400', // orange
+    ]
 }
 
 // Create the canvas
@@ -64,17 +71,13 @@ class Particle {
 }
 
 // Create a bunch of particles
-const colors = [
-    '#1abc9c',
-    '#3498db',
-    '#8e44ad',
-    '#d35400'
-];
 const particles = [];
 for(let i = 0; i < config.numParticles; i++){
     const r = Math.random()*config.maxParticleSize + 1;
     const radius = Math.random()*(config.maxOrbitRadius - config.minOrbitRadius) + config.minOrbitRadius;
-    const color = colors[Math.floor(Math.random()*4)];
+    const color = config.particleColors && config.particleColors.length > 0 ? 
+                  config.particleColors[Math.floor(Math.random()*config.particleColors.length)] :
+                  config.defaultParticleColor || 'black';
     particles.push(
         new Particle(r, radius, color)
     );
