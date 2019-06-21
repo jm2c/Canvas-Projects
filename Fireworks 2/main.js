@@ -21,6 +21,26 @@ const colors = [
     'lime',
 ];
 
+// Create elements for sounds
+class Sound{
+    constructor(src){
+        this.sound = document.createElement('audio');
+        this.sound.src = src;
+        this.sound.setAttribute('preload', 'auto');
+        this.sound.style.display = 'none';
+        document.body.appendChild(this.sound);
+        this.sound.addEventListener('ended', evt => {
+            this.sound.classList.add('ended');
+        });
+    }
+    play(){
+        this.sound.play();
+    }
+    stop(){
+        this.sound.pause();
+    }
+}
+
 // To create particles
 class Particle{
     constructor(x, y, size, color){
@@ -71,10 +91,14 @@ addEventListener('click', evt => {
     firework.velX = 0;
     firework.velY = -(Math.random()*8 + 5);
     fireworks.push(firework);
+    const launch = new Sound('launch.mp3');
+    launch.play();
 });
 
 function explode(x,y){
     const color = colors[Math.floor(Math.random()*colors.length)];
+    const blow = new Sound('blow.mp3');
+    blow.play();
     for(let i = 0; i < 60; i++){
         const p = new Particle(x, y, 1.5, color);
         p.velX = Math.cos(Math.random()*2*Math.PI)*5;
@@ -102,6 +126,14 @@ function checkForExplosion(){
     }
 }
 
+// remove the unused audio tags
+function cleanAudioNodes(){
+    const nodes = document.querySelectorAll('.ended');
+    for (let i = 0; i < nodes.length; i++) {
+        document.body.removeChild(nodes[i]);
+    }
+}
+
 // Animation loop
 (function animate(){
     requestAnimationFrame(animate);
@@ -109,6 +141,7 @@ function checkForExplosion(){
         cleanParticles();
     if (fireworks.length > 0)
         checkForExplosion();
+    cleanAudioNodes();
     ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
     ctx.fillRect(0,0,innerWidth,innerHeight);
     particles.forEach( p => p.update() );
