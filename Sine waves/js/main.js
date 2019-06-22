@@ -5,7 +5,7 @@ const config = {
     velocity: 3,
     numWaves: 50,
     distanceRatio: 1/40,
-    color: 'steelblue'
+    color: 'white'
 }
 
 // Create the canvas and context
