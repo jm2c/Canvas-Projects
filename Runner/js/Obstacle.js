@@ -1,15 +1,11 @@
-class Player {
+class Obstacle {
     constructor(x, y, size) {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.velY = 0;
     }
-    get jumpForce() {
-        return this.size / 5;
-    }
-    get bottom() {
-        return this.y + this.size / 2;
+    get left() {
+        return this.x - this.size / 2;
     }
     get right() {
         return this.x + this.size / 2;
@@ -20,17 +16,10 @@ class Player {
             this.x - this.size / 2,
             this.y - this.size / 2,
             this.size,
-            this.size
-        );
+            2 * this.size);
     }
     update() {
-        this.velY += gravity;
-        this.y += this.velY;
-
-        if (this.bottom > innerHeight) {
-            this.velY = 0;
-            this.y = innerHeight - this.size / 2;
-        }
+        this.x -= obstaclesVel;
         this.draw();
     }
 }
