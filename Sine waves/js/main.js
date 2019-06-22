@@ -1,3 +1,13 @@
+// Settings
+const config = {
+    amplitud: 100,
+    frequency: 200,
+    velocity: 3,
+    numWaves: 50,
+    distanceRatio: 1/40,
+    color: 'steelblue'
+}
+
 // Create the canvas and context
 const canvas = document.createElement('canvas');
 const ctx    = canvas.getContext('2d');
@@ -14,17 +24,19 @@ let middleY;
 })();
 
 class Wave {
-    constructor(a, b, c) {
+    constructor(a, b, c, vel, color) {
         this.a = a;
         this.b = b;
         this.c = c;
         this.amp = 0;
+        this.vel = vel
+        this.color = color;
     }
     eq(x) {
         return this.amp * Math.sin(x / this.b - this.c);
     }
     draw() {
-        ctx.strokeStyle = 'steelblue';
+        ctx.strokeStyle = this.color;
         ctx.beginPath();
         ctx.moveTo(-1, middleY);
         for (let i = 0; i < innerWidth; i++) {
@@ -34,15 +46,21 @@ class Wave {
     }
     update() {
         this.amp = this.a * Math.sin(this.c);
-        this.c += 0.01;
+        this.c += this.vel / 100;
         this.draw();
     }
 }
 
 const waves = [];
-for (let i = 0; i < 30; i++) {
+for (let i = 0; i < config.numWaves; i++) {
     waves.push(
-        new Wave(100, 200, i*(1/60))
+        new Wave(
+            config.amplitud,
+            config.frequency,
+            i * config.distanceRatio,
+            config.velocity,
+            config.color
+        )
     );
 }
 
