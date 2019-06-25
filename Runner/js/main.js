@@ -13,6 +13,7 @@ document.body.appendChild(canvas);
  * Game Elements
  */
 const gravity = 0.2;
+const board = new Board(3, 'white');
 
 // Player
 const playerSize = 40,
@@ -57,13 +58,12 @@ addEventListener('keypress', evt => {
     let frame;
     if (!gameOver)
         frame = requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // update score
-    if (frame % 8 == 0){
+    if (frame % 8 == 0)
         player.score++;
-    }
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(board.number(player.score), 10, 20);
 
     player.update(ctx);
 
