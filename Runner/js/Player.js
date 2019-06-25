@@ -4,6 +4,7 @@ class Player {
         this.y = y;
         this.size = size;
         this.velY = 0;
+        this.score = 0;
     }
     get jumpForce() {
         return this.size / 5;
@@ -14,7 +15,13 @@ class Player {
     get right() {
         return this.x + this.size / 2;
     }
-    draw() {
+    get left() {
+        return this.x - this.size / 2;
+    }
+    get bottom() {
+        return this.y + this.size / 2;
+    }
+    draw(ctx) {
         ctx.fillStyle = 'white';
         ctx.fillRect(
             this.x - this.size / 2,
@@ -23,7 +30,7 @@ class Player {
             this.size
         );
     }
-    update() {
+    update(ctx) {
         this.velY += gravity;
         this.y += this.velY;
 
@@ -31,6 +38,6 @@ class Player {
             this.velY = 0;
             this.y = innerHeight - this.size / 2;
         }
-        this.draw();
+        this.draw(ctx);
     }
 }

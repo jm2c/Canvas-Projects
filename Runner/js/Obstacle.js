@@ -10,7 +10,10 @@ class Obstacle {
     get right() {
         return this.x + this.size / 2;
     }
-    draw() {
+    get top() {
+        return this.y - this.size / 2;
+    }
+    draw(ctx) {
         ctx.fillStyle = 'white';
         ctx.fillRect(
             this.x - this.size / 2,
@@ -18,8 +21,8 @@ class Obstacle {
             this.size,
             2 * this.size);
     }
-    update() {
+    update(ctx) {
         this.x -= obstaclesVel;
-        this.draw();
+        this.draw(ctx);
     }
 }
