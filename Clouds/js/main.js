@@ -2,22 +2,50 @@ import Cloud from './Cloud.js';
 
 // Create the canvas and context
 const canvas = document.createElement('canvas');
-const ctx    = canvas.getContext('2d');
+const ctx = canvas.getContext('2d');
 document.body.appendChild(canvas);
 
 // Setup for fullscreen canvas
-(function init(){
+(function init() {
     canvas.width = innerWidth;
     canvas.height = innerHeight;
     addEventListener('resize', init);
 })();
 
-const c1 = new Cloud(canvas.width / 2, canvas.height / 2, 80);
+const clouds = [];
+function addCloud() {
+    const size = Math.random() * 30 + 10 | 0;
+    const height = Math.random() * (canvas.height / 2) + 2 * size | 0;
+    const vel = - size * 0.05;
+    clouds.push(
+        new Cloud(
+            canvas.width + 6 * size,
+            height,
+            size,
+            vel
+        )
+    );
+}
+addCloud();
+
+setInterval(() => {
+    if (clouds.length < 12)
+        addCloud();
+}, 5E3);
 
 // Main loop for animations
-(function animate(){
+(function animate() {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, innerWidth, innerHeight);
-    // Things to update
-    c1.update(ctx);
+
+    // Clear invisible clouds
+    for (let c = 0; c < clouds.length; c++) {
+        if (clouds[c].x < - 6 * clouds[c].size)
+            clouds.splice(c, 1);
+    }
+
+    // Animate every single cloud
+    clouds.forEach(cloud => {
+        cloud.update(ctx);
+    });
 })();
