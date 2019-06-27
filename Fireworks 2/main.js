@@ -101,8 +101,8 @@ function explode(x,y){
     blow.play();
     for(let i = 0; i < 60; i++){
         const p = new Particle(x, y, 1.5, color);
-        p.velX = Math.cos(Math.random()*2*Math.PI)*5;
-        p.velY = Math.sin(Math.random()*2*Math.PI)*5;
+        p.velX = Math.random()*10 - 5;
+        p.velY = Math.random()*10 - 5;
         particles.push(p);
     }
 }

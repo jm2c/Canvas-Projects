@@ -56,8 +56,8 @@ addEventListener('click', evt => {
     const color = colors[Math.floor(Math.random()*colors.length)];
     for(let i = 0; i < 60; i++){
         const p = new Particle(evt.x, evt.y, 1.5, color);
-        p.velX = Math.cos(Math.random()*2*Math.PI)*5;
-        p.velY = Math.sin(Math.random()*2*Math.PI)*5;
+        p.velX = Math.random()*10 - 4;
+        p.velY = Math.random()*10 - 5;
         particles.push(p);
     }
 });
