@@ -1,3 +1,5 @@
+import Rectangle from './Rectangle.js';
+
 // Create the canvas and context
 const canvas = document.createElement('canvas');
 const ctx    = canvas.getContext('2d');

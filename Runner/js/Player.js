@@ -1,4 +1,4 @@
-class Player {
+export default class Player {
     constructor(x, y, size) {
         this.x = x;
         this.y = y;
@@ -31,7 +31,6 @@ class Player {
         );
     }
     update(ctx) {
-        this.velY += gravity;
         this.y += this.velY;
 
         if (this.bottom > innerHeight) {

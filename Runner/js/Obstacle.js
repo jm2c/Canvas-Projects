@@ -1,4 +1,4 @@
-class Obstacle {
+export default class Obstacle {
     constructor(x, y, size) {
         this.x = x;
         this.y = y;
@@ -22,7 +22,6 @@ class Obstacle {
             2 * this.size);
     }
     update(ctx) {
-        this.x -= obstaclesVel;
         this.draw(ctx);
     }
 }

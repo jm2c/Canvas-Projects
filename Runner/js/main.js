@@ -1,3 +1,7 @@
+import Player from './Player.js';
+import Obstacle from './Obstacle.js';
+import Board from './Board.js';
+
 const canvas = document.createElement('canvas');
 const ctx    = canvas.getContext('2d');
 
@@ -65,9 +69,11 @@ addEventListener('keypress', evt => {
         player.score++;
     ctx.drawImage(board.number(player.score), 10, 20);
 
+    player.velY += gravity;
     player.update(ctx);
 
     obstacles.forEach( obst => {
+        obst.x -= obstaclesVel;
         obst.update(ctx);
 
         // Collision detect
