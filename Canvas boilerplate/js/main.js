@@ -14,6 +14,6 @@ canvas.style.backgroundColor = 'black';
 // Main loop for animations
 (function animate(){
     requestAnimationFrame(animate);
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     // Things to update
 })();
