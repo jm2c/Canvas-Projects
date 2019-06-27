@@ -11,7 +11,7 @@ const ctx = canvas.getContext('2d');
 document.body.appendChild(canvas);
 
 // Get mouse coords
-let mouseX, mouseY;
+let mouseX = canvas.width / 2, mouseY = canvas.height / 2;
 addEventListener('mousemove', evt => {
     mouseX = evt.x;
     mouseY = evt.y;
@@ -23,41 +23,41 @@ addEventListener('mousemove', evt => {
  * @param color = (String) particle color
  */
 class Particle {
-    constructor(r, color){
+    constructor(r, vel, color){
         this.r = r;
+        this.vel = vel;
         this.color = color;
-        this.x = undefined;
-        this.y = undefined;
+        this.x = canvas.width / 2;
+        this.y = canvas.height / 2;
     }
 
     draw() {
-        ctx.strokeStyle = this.color;
         ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI);
-        ctx.stroke();
         ctx.fill();
     }
 
     update() {
-        if(this.x && this.y){
-            this.x += (mouseX-this.x)*.08;
-            this.y += (mouseY - this.y)*.08;
-        }else{
-            this.x = mouseX;
-            this.y = mouseY;
-        }
+        this.x = this.x + (mouseX - this.x) * (this.vel / 100);
+        this.y = this.y + (mouseY - this.y) * (this.vel / 100);
         this.draw();
     }
 }
 
 // Add the particle
-p1 = new Particle(10, '#22a6b3');
+p1 = new Particle(20, 5,  '#22a6b3');
+p2 = new Particle(15, 10, '#e74c3c');
+p3 = new Particle(10, 15, '#34495e');
+p4 = new Particle(5,  20, '#8e44ad');
+particles = [p1, p2, p3, p4];
 
 // Main animation loop
 (function animate(){
     requestAnimationFrame(animate);
     ctx.fillStyle = 'rgba(255,255,255,0.2)';
-    ctx.fillRect(0,0,innerWidth, innerHeight);
-    p1.update();
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(particle => {
+        particle.update();
+    });
 })();
