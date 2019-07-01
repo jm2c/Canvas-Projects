@@ -1,3 +1,6 @@
+/**
+* Game of Tic Tac Toe
+**/
 class TicTacToe {
     constructor() {
         this.player1 = 'x';

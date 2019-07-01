@@ -6,6 +6,7 @@ canvas.width = size;
 canvas.height = size;
 document.body.appendChild(canvas);
 
+// Init the game
 let game, players, activePlayer, finished;
 function init() {
     game = new TicTacToe();
@@ -15,14 +16,18 @@ function init() {
     ctx.clearRect(0, 0, size, size);
     drawBoard();
 }
+init();
 
+// Move when user clicks the board
 addEventListener('click', evt => {
+    // Calculate the coords of the clicked cell
     const s = canvas.width / 3;
     const x = evt.clientX - canvas.getBoundingClientRect().x;
     const y = evt.clientY - canvas.getBoundingClientRect().y;
     let i = Math.floor(x / s),
         j = Math.floor(y / s);
 
+    // Move and check if the game has finished
     if (finished) {
         init();
     } else {
@@ -32,7 +37,7 @@ addEventListener('click', evt => {
         }else {
             drawO(i, j);
         }
-        togglePlayer();
+        switchPlayer();
         if (game.checkWin()){
             finished = true;
             drawWinnerLine();
@@ -43,9 +48,12 @@ addEventListener('click', evt => {
     }
 });
 
+// Calculate and draw the final line if there is a winner
 function drawWinnerLine() {
     const color = 'darkviolet';
     const weight = 8;
+    
+    // Vertical line
     if (game.winnerLine.dir == 'col') {
         line (
             game.winnerLine.n * size / 3 + size / 6,
@@ -54,7 +62,10 @@ function drawWinnerLine() {
             size,
             weight, color
         );
-    } else if (game.winnerLine.dir == 'row') {
+    }
+    
+    // Horizontal line
+    else if (game.winnerLine.dir == 'row') {
         line (
             0,
             game.winnerLine.n * size / 3 + size / 6,
@@ -62,7 +73,10 @@ function drawWinnerLine() {
             game.winnerLine.n * size / 3 + size / 6,
             weight, color
         );
-    } else {
+    }
+    
+    // Diagonal
+    else {
         if (game.winnerLine.n == 0) {
             line(0, 0, size, size, weight, color);
         } else {
@@ -71,10 +85,12 @@ function drawWinnerLine() {
     }
 }
 
-function togglePlayer(){
+// For change player each turn
+function switchPlayer(){
     activePlayer = activePlayer == players[0] ? players[1] : players[0];
 }
 
+// Aux. function to draw a line in canvas
 function line (x1, y1, x2, y2, width = 3, color = 'black') {
     ctx.beginPath();
     ctx.lineWidth = width;
@@ -85,6 +101,7 @@ function line (x1, y1, x2, y2, width = 3, color = 'black') {
     ctx.stroke();
 }
 
+// Draw a cross simbol in ij-nth cell 
 function drawX (i, j) {
     const s = canvas.width / 3;
     const off = canvas.width / 4;
@@ -92,6 +109,7 @@ function drawX (i, j) {
     line(i*s+s-off, j*s+off, i*s+off, j*s+s-off, 4, 'red');
 }
 
+// Draw a circle in ij-nth cell
 function drawO (i, j) {
     const s = canvas.width / 3;
     const off = s / 2;
@@ -102,6 +120,7 @@ function drawO (i, j) {
     ctx.stroke();
 }
 
+// Draw the classic tic tac toe 9 cells board
 function drawBoard(){
     const s = canvas.width;
     line(0, s/3, s, s/3);
@@ -110,4 +129,3 @@ function drawBoard(){
     line(2*s/3, 0, 2*s/3, s);
 }
 
-init();
