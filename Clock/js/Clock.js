@@ -96,21 +96,21 @@ export default class Clock {
         ctx.font = `${size/30}px serif`;
         ctx.fillText(this.name, 0, alignmentFactor-size/8);
 
-        // Draw handlers
+        // Draw hands
         let r, angle, width;
         ctx.lineCap = 'round';
         ctx.strokeStyle = this.handlersColor;
-        // Hour handler
+        // Hour hand
         r = -(size / 2)*.55;
         angle = (this.h % 24)*30 + this.m * 0.5;
         width = size / 35;
         drawHandler(ctx, r, angle, width);
-        // Minute handler
+        // Minute hand
         r = -(size / 2)*.65;
         angle = this.m*6 + this.s * .1;
         width = size / 50;
         drawHandler(ctx, r, angle, width);
-        // Seconds handler
+        // Seconds hand
         r = -(size / 2)*.75;
         width = size / 90;
         angle = this.s*6 + this.l * .006;
@@ -148,7 +148,7 @@ function dot(ctx, x, y, r) {
     ctx.fill();
 }
 
-// To draw the clock handlers, obviously
+// To draw the clock hands, obviously
 function drawHandler(ctx, r, angle, width, tail = false){
     const x = r * Math.cos( toRad(angle + 90) );
     const y = r * Math.sin( toRad(angle + 90) );
