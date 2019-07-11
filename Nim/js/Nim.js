@@ -48,8 +48,13 @@ export default class Nim {
     ended() {
         if (this.balls > 0) return false;
         this.players.forEach( player => {
-            if ( !player.active )
-                player.winner = true;
+            if (this.lastBallLose) {
+                if ( !player.active )
+                    player.winner = true;
+            } else {
+                if ( player.active )
+                    player.winner = true;
+            }
         });
         return true;
     }
