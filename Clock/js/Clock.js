@@ -17,6 +17,7 @@ export default class Clock {
     getSystemSeconds()      { return new Date().getSeconds();      }
     getSystemMilliseconds() { return new Date().getMilliseconds(); }
 
+    // Set the time to actual system time
     setSystemTime() {
         this.h = this.getSystemHours();
         this.m = this.getSystemMinutes();
@@ -24,6 +25,7 @@ export default class Clock {
         this.l = this.milliseconds ? this.getSystemMilliseconds() : 0;
     }
 
+    // Set to any time
     setTime(h,m,s,l) {
         if (h > 24  || h < 0) throw 'Invalid hour format';
         if (m > 60  || m < 0) throw 'Invalid minutes format';
@@ -37,6 +39,7 @@ export default class Clock {
         this.l = l || 0;
     }
 
+    // Return a DOM Canvas element with the clock drawn
     toCanvas(size = 200) {
         // Prepare the canvas
         const canvas = document.createElement('canvas');
@@ -49,6 +52,7 @@ export default class Clock {
         return canvas;
     }
 
+    // Draws the clock in the canvas
     draw(canvas) {
         const ctx = canvas.getContext('2d');
         const size = canvas.width;
@@ -88,6 +92,7 @@ export default class Clock {
         ctx.fillText('3', alignmentFactor, 0);
         ctx.fillText('6', 0, alignmentFactor);
         ctx.fillText('9', -alignmentFactor, 0);
+        // And the name
         ctx.font = `${size/30}px serif`;
         ctx.fillText(this.name, 0, alignmentFactor-size/8);
 
@@ -116,6 +121,7 @@ export default class Clock {
         dot(ctx, 0, 0, size / 40);
     }
 
+    // Return the time of the clock in friendly format
     toString() {
         const h = this.twentyfour ? this.h : this.h % 12,
               m = this.m,
@@ -131,13 +137,18 @@ export default class Clock {
     }
 }
 
-// Private methods
+/**
+ * Private methods
+ */
+
+//  Draw a filled circle
 function dot(ctx, x, y, r) {
     ctx.beginPath();
     ctx.arc(x, y, r, 0, 2*Math.PI);
     ctx.fill();
 }
 
+// To draw the clock handlers, obviously
 function drawHandler(ctx, r, angle, width, tail = false){
     const x = r * Math.cos( toRad(angle + 90) );
     const y = r * Math.sin( toRad(angle + 90) );
@@ -153,6 +164,7 @@ function drawHandler(ctx, r, angle, width, tail = false){
     }
 }
 
+// Tranform from degrees to radians
 function toRad(deg) {
     return deg * Math.PI / 180;
 }
