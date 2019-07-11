@@ -1,5 +1,5 @@
 export default class Clock {
-    constructor(twentyfour = false, milliseconds = false) {
+    constructor(milliseconds = false, twentyfour = false) {
         this.twentyfour = twentyfour;
         this.milliseconds = milliseconds;
         this.setSystemTime();
@@ -112,8 +112,8 @@ export default class Clock {
         drawHandler(ctx, r, angle, width);
         // Seconds handler
         r = -(size / 2)*.75;
-        angle = this.s*6;
         width = size / 90;
+        angle = this.s*6 + this.l * .006;
         drawHandler(ctx, r, angle, width, true);
 
         // Finally, the central dot
