@@ -104,17 +104,17 @@ export default class Clock {
         r = -(size / 2)*.55;
         angle = (this.h % 24)*30 + this.m * 0.5;
         width = size / 35;
-        drawHandler(ctx, r, angle, width);
+        drawHand(ctx, r, angle, width);
         // Minute hand
         r = -(size / 2)*.65;
         angle = this.m*6 + this.s * .1;
         width = size / 50;
-        drawHandler(ctx, r, angle, width);
+        drawHand(ctx, r, angle, width);
         // Seconds hand
         r = -(size / 2)*.75;
         width = size / 90;
         angle = this.s*6 + this.l * .006;
-        drawHandler(ctx, r, angle, width, true);
+        drawHand(ctx, r, angle, width, true);
 
         // Finally, the central dot
         ctx.fillStyle = this.fgColor;
@@ -149,7 +149,7 @@ function dot(ctx, x, y, r) {
 }
 
 // To draw the clock hands, obviously
-function drawHandler(ctx, r, angle, width, tail = false){
+function drawHand(ctx, r, angle, width, tail = false){
     const x = r * Math.cos( toRad(angle + 90) );
     const y = r * Math.sin( toRad(angle + 90) );
     ctx.beginPath();
@@ -160,7 +160,7 @@ function drawHandler(ctx, r, angle, width, tail = false){
 
     if (tail) {
         ctx.lineCap = 'butt';
-        drawHandler(ctx, r*.25, angle+180, width*1.8, false);
+        drawHand(ctx, r*.25, angle+180, width*1.8, false);
     }
 }
 
