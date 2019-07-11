@@ -5,9 +5,9 @@ export default class Clock {
         this.setSystemTime();
 
         // Canvas Personilizer
-        this.name = 'QUARTZ';
-        this.fgColor = 'black';
-        this.bgColor = 'white';
+        this.name          = 'QUARTZ';
+        this.fgColor       = 'black';
+        this.bgColor       = 'white';
         this.handlersColor = 'midnightblue';
     }
 
@@ -92,49 +92,24 @@ export default class Clock {
         ctx.fillText(this.name, 0, alignmentFactor-size/8);
 
         // Draw handlers
+        let r, angle, width;
         ctx.lineCap = 'round';
         ctx.strokeStyle = this.handlersColor;
         // Hour handler
-        let r = -(size / 2)*.55;
-        let angle = (this.h % 24)*30 + this.m * 0.5;
-        let x = r*Math.cos((angle+90)*Math.PI/180);
-        let y = r*Math.sin((angle+90)*Math.PI/180);
-        ctx.beginPath();
-        ctx.lineWidth = size / 35;
-        ctx.moveTo(0,0);
-        ctx.lineTo(x, y);
-        ctx.stroke();
+        r = -(size / 2)*.55;
+        angle = (this.h % 24)*30 + this.m * 0.5;
+        width = size / 35;
+        drawHandler(ctx, r, angle, width);
         // Minute handler
         r = -(size / 2)*.65;
         angle = this.m*6 + this.s * .1;
-        x = r*Math.cos((angle+90)*Math.PI/180);
-        y = r*Math.sin((angle+90)*Math.PI/180);
-        ctx.beginPath();
-        ctx.lineWidth = size / 50;
-        ctx.moveTo(0,0);
-        ctx.lineTo(x, y);
-        ctx.stroke();
+        width = size / 50;
+        drawHandler(ctx, r, angle, width);
         // Seconds handler
         r = -(size / 2)*.75;
         angle = this.s*6;
-        x = r*Math.cos((angle+90)*Math.PI/180);
-        y = r*Math.sin((angle+90)*Math.PI/180);
-        ctx.beginPath();
-        ctx.lineWidth = size / 90;
-        ctx.moveTo(0,0);
-        ctx.lineTo(x, y);
-        ctx.stroke();
-        // Seconds tail
-        ctx.lineCap = 'butt';
-        r = -(size / 2)*.2;
-        angle = this.s*6+180;
-        x = r*Math.cos((angle+90)*Math.PI/180);
-        y = r*Math.sin((angle+90)*Math.PI/180);
-        ctx.beginPath();
-        ctx.lineWidth = size / 50;
-        ctx.moveTo(0,0);
-        ctx.lineTo(x, y);
-        ctx.stroke();
+        width = size / 90;
+        drawHandler(ctx, r, angle, width, true);
 
         // Finally, the central dot
         ctx.fillStyle = this.fgColor;
@@ -161,4 +136,23 @@ function dot(ctx, x, y, r) {
     ctx.beginPath();
     ctx.arc(x, y, r, 0, 2*Math.PI);
     ctx.fill();
+}
+
+function drawHandler(ctx, r, angle, width, tail = false){
+    const x = r * Math.cos( toRad(angle + 90) );
+    const y = r * Math.sin( toRad(angle + 90) );
+    ctx.beginPath();
+    ctx.lineWidth = width;
+    ctx.moveTo(0,0);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+
+    if (tail) {
+        ctx.lineCap = 'butt';
+        drawHandler(ctx, r*.25, angle+180, width*1.8, false);
+    }
+}
+
+function toRad(deg) {
+    return deg * Math.PI / 180;
 }
