@@ -3,16 +3,27 @@
 <head>
     <title>Nim</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-        }
         body {
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        canvas {
+            border-radius: 8px;
+        }
+        button {
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
+    <div id="info">Player 1</div>
+    <div id="board"></div>
+    <div>
+        <button id="pass">Pass Turn</button>
+    </div>
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
