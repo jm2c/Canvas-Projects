@@ -74,7 +74,6 @@ export default class Clock {
 
         // Draw marks
         ctx.fillStyle = this.fgColor;
-        dot(ctx, 0, 0, size / 50);
         dot(ctx,  alignmentFactor * cos60, -alignmentFactor * sin60, size / 80);
         dot(ctx,  alignmentFactor * cos30, -alignmentFactor * sin30, size / 80);
         dot(ctx,  alignmentFactor * cos60,  alignmentFactor * sin60, size / 80);
@@ -101,19 +100,19 @@ export default class Clock {
         ctx.lineCap = 'round';
         ctx.strokeStyle = this.handlersColor;
         // Hour hand
-        r = -(size / 2)*.55;
-        angle = (this.h % 24)*30 + this.m * 0.5;
+        r = -(size / 2) * .55;
+        angle = (this.h % 24) * 30 + this.m * 0.5 + this.s * (1/120);
         width = size / 35;
         drawHand(ctx, r, angle, width);
         // Minute hand
-        r = -(size / 2)*.65;
-        angle = this.m*6 + this.s * .1;
+        r = -(size / 2) * .65;
+        angle = this.m * 6 + this.s * .1;
         width = size / 50;
         drawHand(ctx, r, angle, width);
         // Seconds hand
-        r = -(size / 2)*.75;
+        r = -(size / 2) * .75;
         width = size / 90;
-        angle = this.s*6 + this.l * .006;
+        angle = this.s * 6 + this.l * .006;
         drawHand(ctx, r, angle, width, true);
 
         // Finally, the central dot
