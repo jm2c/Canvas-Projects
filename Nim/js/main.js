@@ -6,6 +6,11 @@ const initBalls = 20,
       lastBallWin = false;
 
 // Game info
+let rule = lastBallWin ?
+             'Last ball wins, ' :
+             'Last ball loses, ';
+rule += `${maxBallsPerTurn} balls per turn.`;
+document.getElementById('rule').innerText = rule;
 let taken = 0;
 function updateLabel() {
     const info = document.getElementById('info');

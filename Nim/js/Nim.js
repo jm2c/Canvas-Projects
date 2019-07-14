@@ -87,7 +87,7 @@ export default class Nim {
     draw(canvas) {
         canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
         this.cBalls.forEach( ball => {
-            ball.draw(canvas);
+            ball.draw(canvas, this.active);
         });
     }
 
@@ -138,14 +138,17 @@ class Ball {
         this.x = x;
         this.y = y;
         this.size = size;
+        this.colorPlayer1 = 'forestgreen';
+        this.colorPlayer2 = 'steelblue';
         this.selected = false;
         this.index = undefined;
     }
 
-    draw(canvas) {
+    draw(canvas, activePlayer) {
         const ctx = canvas.getContext('2d');
+        const color = activePlayer == 0 ? this.colorPlayer1 : this.colorPlayer2;
         ctx.beginPath();
-        ctx.fillStyle = this.selected ? 'forestgreen' : 'silver';
+        ctx.fillStyle = this.selected ? color : 'silver';
         ctx.arc(this.x, this.y, this.size / 2, 0, 2*Math.PI);
         ctx.fill();
     }
