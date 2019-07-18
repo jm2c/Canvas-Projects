@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Parametric functions</title>
+    <style>
+        canvas { margin-top: .2em }
+        button { cursor: pointer }
+    </style>
+</head>
+<body>
+    <div id="buttons">
+        <button value="0">Circle</button>
+        <button value="1">Ellipse</button>
+        <button value="2">Cardioid</button>
+        <button value="3">Bow tie</button>
+        <button value="4">Fig 4</button>
+        <button value="5">Fig 5</button>
+        <button value="6">Fig 6</button>
+        <button value="7">Fig 7</button>
+    </div>
+    <script src="js/functions.js"></script>
+    <script>
+        const btns = document.getElementById('buttons');
+        btns.addEventListener('click', evt => {
+            evt.preventDefault();
+            if (evt.target && evt.target.localName == 'button') {
+                clear();
+                var grph = graphics[evt.target.value];
+                x = grph.x;
+                y = grph.y;
+                var ti = grph.ti || 0;
+                var tf = grph.tf || TAU;
+                var step = grph.step || 100;
+                parametric(ti, tf, step);
+            }
+        });
+        const graphics = [
+            {
+                x: t => 3 * cos(t),
+                y: t => 3 * sin(t),
+                step: 50
+            },
+            {
+                x: t => 6 * cos(t),
+                y: t => 2 * sin(t),
+                step: 80
+            },
+            {
+                x: t => 2*cos(t) - cos(2*t),
+                y: t => 2*sin(t) - sin(2*t),
+                step: 50
+            },
+            {
+                x: t => 3*cos(t),
+                y: t => 3*sin(2*t)
+            },
+            {
+                x: t => 2*(sin(t)+0.5*cos(5*t)+0.25*sin(13*t)),
+                y: t => 2*(cos(t)+0.5*sin(5*t)+0.25*cos(13*t)),
+                step: 200
+            },
+            {
+                x: t => 3*(sin(t)-sin(2.3*t)),
+                y: t => 6*(cos(t)),
+                tf: 10*TAU,
+                step: 100
+            },
+            {
+                x: t => 3*(sin(t)+0.5*sin(5*t)+0.25*cos(2.3*t)),
+                y: t => 3*(cos(t)+0.5*cos(5*t)+0.25*sin(2.3*t)),
+                tf: 10*TAU,
+            },
+            {
+                x: t => 3*(.45*cos(t) - cos(.45*t)),
+                y: t => 3*(.45*sin(t) - sin(.45*t)),
+                step: 80,
+                tf: 20*TAU
+            },
+
+        ];
+    </script>
+</body>
+</html>
