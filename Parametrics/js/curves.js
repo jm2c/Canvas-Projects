@@ -59,16 +59,16 @@ function stop() {
 
 clear();
 
-function parametric(ti = 0, tf = TAU, step = 100, table = false) {
+function parametric(ti = 0, tf = TAU, step = 100, scl = 1, table = false) {
     const t = ti;
     const xt = x(t);
     const yt = -y(t);
     valuesTable.push({t: t, x:xt, y:yt});
-    dot(xt, yt);
+    dot(xt*scl, yt*scl);
 
     if(t < tf) {
         frame = requestAnimationFrame(()=>{
-            parametric(t + 1 / step, tf, step, table);
+            parametric(t + 1 / step, tf, step, scl, table);
         });
     } else {
         if(table){

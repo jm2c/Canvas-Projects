@@ -1,9 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Parametric functions</title>
+    <style>
+        canvas { margin-top: .2em }
+        button { cursor: pointer }
+    </style>
 </head>
 <body>
-    <script type="module" src="js/main.js"></script>
+    <div id="buttons">
+        <button value="0">Circle</button>
+        <button value="1">Ellipse</button>
+        <button value="2">Cardioid</button>
+        <button value="3">Bow tie</button>
+        <button value="4">Fig 4</button>
+        <button value="5">Fig 5</button>
+        <button value="6">Fig 6</button>
+        <button value="7">Fig 7</button>
+        <button value="8">Batman</button>
+    </div>
+    <script src="js/curves.js"></script>
+    <script>
+        const btns = document.getElementById('buttons');
+        const abs = x => Math.abs(x);
+        const bAbs = (t, n) => abs(abs(t)-n);
+        btns.addEventListener('click', evt => {
+            evt.preventDefault();
+            if (evt.target && evt.target.localName == 'button') {
+                clear();
+                var grph = graphics[evt.target.value];
+                x = grph.x;
+                y = grph.y;
+                var ti = grph.ti || 0;
+                var tf = grph.tf || TAU;
+                var step = grph.step || 100;
+                var scale = grph.scale || 1;
+                parametric(ti, tf, step, scale);
+            }
+        });
+        const graphics = [
+            {
+                x: t => 3 * cos(t),
+                y: t => 3 * sin(t),
+                step: 50
+            },
+            {
+                x: t => 6 * cos(t),
+                y: t => 2 * sin(t),
+                step: 80
+            },
+            {
+                x: t => 2*cos(t) - cos(2*t),
+                y: t => 2*sin(t) - sin(2*t),
+                step: 50,
+                scale: 2
+            },
+            {
+                x: t => 3*cos(t),
+                y: t => 3*sin(2*t)
+            },
+            {
+                x: t => sin(t)+0.5*cos(5*t)+0.25*sin(13*t),
+                y: t => cos(t)+0.5*sin(5*t)+0.25*cos(13*t),
+                step: 200,
+                scale: 2
+            },
+            {
+                x: t => 3*(sin(t)-sin(2.3*t)),
+                y: t => 6*(cos(t)),
+                tf: 10*TAU,
+                step: 100
+            },
+            {
+                x: t => sin(t)+0.5*sin(5*t)+0.25*cos(2.3*t),
+                y: t => cos(t)+0.5*cos(5*t)+0.25*sin(2.3*t),
+                tf: 10*TAU,
+                scale: 3,
+                step: 150
+            },
+            {
+                x: t => .45*cos(t) - cos(.45*t),
+                y: t => .45*sin(t) - sin(.45*t),
+                step: 40,
+                tf: 20*TAU,
+                scale: 3
+            },
+            {
+                // Autor: jeromeawhite
+                // https://www.geogebra.org/m/jetXHKSK
+                x: t => abs(t)/t*(1/4*(4*abs(t)-2*bAbs(t,1)-bAbs(t,2)-bAbs(t,4))+23/8*(bAbs(t,8)-bAbs(t,12))-29/10*(bAbs(t,16)-bAbs(t,21))+1/4*(bAbs(t,12)-bAbs(t,16)-2)**2+10*cos(PI/16*(bAbs(t,4)-bAbs(t,8)-4))-10),
+                y: t => -1/4*(abs(t)-bAbs(t,1)+1)**2+1/4*(6*bAbs(t,1)-11*bAbs(t,2)+5*bAbs(t,4))-2*(bAbs(t,12)-bAbs(t,16))-12/(5**5)*((bAbs(t,16)-bAbs(t,21)+37)/2-16)**5+6*sin(PI/16*(bAbs(t,4)-bAbs(t,8)-4))+10,
+                ti: -7*PI,
+                tf: 7*PI,
+                step: 30,
+                scale: 0.18
+            },
+        ];
+    </script>
 </body>
 </html>
