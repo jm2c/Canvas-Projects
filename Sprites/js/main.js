@@ -1,12 +1,11 @@
 /**
- * Sprites from https://www.gameart2d.com/free-dino-sprites.html
+ * Sprites from https://www.gameart2d.com/
  */
 
 const canvas = document.createElement('canvas');
 const ctx = canvas.getContext('2d');
 let width = canvas.width = 400*1.441;
 let height = canvas.height = 400;
-let bgColor = canvas.style.backgroundColor = '#5A5';
 let frame = 0;
 let spriteFrame = 0;
 let keyFrame;
@@ -26,14 +25,22 @@ state.active = true;
 
 // Image properties
 const imgRatio = 1.441;
-const imgHeight = 200;
+const imgHeight = 220;
 const imgWidth = imgHeight*imgRatio;
+let background = new Image();
+let ground = new Image();
+let bgPos = 0;
+let grPos = 0;
 let sprites = [];
-async function loadSprites () {
+async function loadBg() {
+    background.src = await 'png/background.png';
+    ground.src = await 'png/ground.png';
+}
+async function loadSprites() {
     for (let s in states) {
-        var state = states[s]
+        const state = states[s]
         for (let i = state.startFrame+1; i <= state.endFrame+1; i++) {
-            let img = new Image();
+            var img = new Image();
             img.src = await `png/${state.name} (${i-state.startFrame}).png`;
             sprites.push(img);
         }
@@ -83,7 +90,7 @@ function animate() {
 
         let x, y;
         x = width / 4;
-        y = height - imgHeight;
+        y = height - imgHeight - 20;
         if (states[2].active) {
             // -(x-6)^2+36, remember that the Y axis is inverted, so in the code
             // the binomial is positive and the 36 is negative.
@@ -94,22 +101,46 @@ function animate() {
             spriteFrame-=2;
             return;
         }
+
+        // Parallax
+        if(states[4].active) {
+            grPos-= 6;
+            bgPos-= 1.5;
+        }
+        if(states[3].active) {
+            grPos-= 16;
+            bgPos-= 4;
+        }
+        if(states[2].active) {
+            grPos-= 8;
+            bgPos-= 2;
+        }
+        
+        // Background Draw
         ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = 'darkolivegreen';
-        ctx.fillRect(0, height-50, width, 50);
-        ctx.fill();  
+        for (let i = 0; i < Math.ceil(width/250); i++) {
+            ctx.drawImage(background, 500*i + bgPos%500, 0, 500, 375);
+        }
+
+        // Ground Draw
+        for (let i = 0; i < Math.ceil(width/64); i++) {
+            ctx.drawImage(ground, 128*i + grPos%128, height-50);
+        }
+
+        // Character
+        ctx.drawImage(sprites[keyFrame], x, y, imgWidth, imgHeight);
+        
+        // Action text
         ctx.fillStyle = 'peru';
         ctx.font = '45px sans';
         ctx.fillText(state.name, 20, 60);
         ctx.fill();
-        ctx.drawImage(sprites[keyFrame], x, y, imgWidth, imgHeight);
     }
 }
 
-loadSprites()
-.then( () => {
-    animate ();
-} )
+loadBg()
+.then( loadSprites )
+.then( animate )
 .catch(err => {
     console.error(err);
 });
