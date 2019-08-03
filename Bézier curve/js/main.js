@@ -51,10 +51,12 @@ const points = {
     p3: new Point(4*w/5, h/2),
 };
 
+// This are the parametric equations that describe the bézier curve
 let x0, y0, x1, y1, x2, y2, x3, y3;
 let x = t => x0*(1-t)**3 + 3*x1*t*(1-t)**2 + 3*x2*t**2*(1-t) + x3*t**3;
 let y = t => y0*(1-t)**3 + 3*y1*t*(1-t)**2 + 3*y2*t**2*(1-t) + y3*t**3;
 
+// Draws the bézier curve in the canvas
 function bézier(){
     ctx.strokeStyle = 'green';
     ctx.lineWidth = h/100;
@@ -65,6 +67,15 @@ function bézier(){
         ctx.lineTo(x(t), y(t));
     }
     ctx.lineTo(x3, y3);
+    ctx.stroke();
+}
+
+function line(x1, y1, x2, y2, lw, color) {
+    ctx.beginPath();
+    ctx.lineWidth = lw;
+    ctx.strokeStyle = color;
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
     ctx.stroke();
 }
 
@@ -84,8 +95,11 @@ function bézier(){
     y2 = points.p2.y;
     x3 = points.p3.x;
     y3 = points.p3.y;
+    
     bézier();
-
+    line(x0, y0, x1, y1, 1, 'rgba(190,190,190,0.4');
+    line(x2, y2, x3, y3, 1, 'rgba(190,190,190,0.4');
+    
     for (const p in points) {
         points[p].draw();
     }
